@@ -65,6 +65,8 @@ function stopPush(){
         openCard.shift();
     }
 }
+
+
     
 
 
