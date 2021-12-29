@@ -15,10 +15,17 @@ function shuffle(array) {
 // varible
 let openCard = []
 const cards = document.querySelectorAll(".card")
-let isMaching =[]
 
 
+let time = 0;
+let timerId = 0;
+let timerOut = true;
 
+const timer = document.querySelector("#timer");
+
+
+let move = 0;
+const moveing = document.querySelector("#moves");
 
 //functions
 function match(){
@@ -47,26 +54,68 @@ function match(){
 for(let card of cards){
         card.addEventListener("click",(event)=>{
 
-            event.target.classList.add("open");
+            if(validClick(event.target)){
+                event.target.classList.add("open");
+                initClock();
 
-            //add the card what I clickes on to the array named 'openCard'
-            openCard.push(event.target);
-            //
-            if(openCard.length == 2){
-                match();
-            } else{ stopPush;
+                
+
+                //add the card what I clickes on to the array named 'openCard'
+                openCard.push(event.target);
+                //
+                if(openCard.length == 2){
+                    match();
+                    moveCounte();
+                }
             }
-            
         })
 }
 
-function stopPush(){
-    if(openCard > 2 ){
-        openCard.shift();
-    }
+function validClick(card){
+    if(openCard.length < 2 && !openCard.includes(card) && !card.classList.contains("match") && card.classList.contains("card")){
+        return true;
+    }else
+    return false;
 }
 
+//timer
+const initClock = () => {
+    timerOut= false;
+    timerId = setInterval(() => {
+        time++;
+        timerCount();
+    },1000);
 
+};
+const timerCount = () => {
+    const min = Math.floor(time/60);
+    const sec = time % 60 ;
+    if (sec < 10) {
+        timer.innerHTML= `${min}:0${sec}`;
+    }else{
+        timer.innerHTML = `${min}:${sec}`;
+    }
+};
+
+
+const stopClock = () => {
+
+}
     
 
+//move
+
+const moveCounte =() => {
+    move++;
+    moveing.innerHTML= `${move} moves`;
+
+    if (move == 16){
+        document.querySelector("#heart").children[0].style.display = "none";
+    }else if(move ==24){
+        document.querySelector("#heart").children[0,1].style.display = "none"
+    }else if(move ==32){
+        document.querySelector("#heart").children[0,1,2].style.display = "none"
+    }
+
+};
 
