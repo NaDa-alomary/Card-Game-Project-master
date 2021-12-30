@@ -99,8 +99,8 @@ const timerCount = () => {
 
 
 const stopClock = () => {
-
-}
+    clearInterval(timerId);
+};
     
 
 //move
@@ -109,12 +109,21 @@ const moveCounte =() => {
     move++;
     moveing.innerHTML= `${move} moves`;
 
-    if (move == 16){
+    if (move == 3){
         document.querySelector("#heart").children[0].style.display = "none";
+
+        stopClock();
+        time = 0;
+        timerOut= true;
+        timerCount();
+        
+    
     }else if(move ==24){
         document.querySelector("#heart").children[0,1].style.display = "none"
+        stopClock();
     }else if(move ==32){
         document.querySelector("#heart").children[0,1,2].style.display = "none"
+        stopClock();
     }
 
 };
