@@ -23,29 +23,26 @@ let timerOut = true;
 
 const timer = document.querySelector("#timer");
 
+let restarts = document.querySelector("#restart");
 
 let move = 0;
 const moveing = document.querySelector("#moves");
 
 //functions
 function match(){
-    if(openCard[0].children[0].className === openCard[1].children[0].className){
-        
+    if(openCard[0].children[0].className === openCard[1].children[0].className){ 
         event.target.classList.add("match");
         openCard[0].classList.add("match");
-        
-
         //
         openCard=[];
     } else{
-        
         setTimeout(()=>{
-            openCard[0].classList.remove("open");
-            openCard[1].classList.remove("open");
+        openCard[0].classList.remove("open");
+        openCard[1].classList.remove("open");
 
 
-            //
-            openCard=[];
+        //
+        openCard=[];
         },1000)    
     }
 }
@@ -56,9 +53,9 @@ for(let card of cards){
 
             if(validClick(event.target)){
                 event.target.classList.add("open");
+                if(timerOut){
                 initClock();
-
-                
+                }
 
                 //add the card what I clickes on to the array named 'openCard'
                 openCard.push(event.target);
@@ -97,34 +94,80 @@ const timerCount = () => {
     }
 };
 
-
 const stopClock = () => {
     clearInterval(timerId);
+    timer.innerHTML= `0:00`;
 };
     
-
 //move
-
 const moveCounte =() => {
     move++;
     moveing.innerHTML= `${move} moves`;
 
-    if (move == 3){
-        document.querySelector("#heart").children[0].style.display = "none";
-
-        stopClock();
-        time = 0;
-        timerOut= true;
-        timerCount();
+    if (move == 16){
+        document.querySelector("#heart").children[0].style.display = "none"; 
+        if(move=0){
+            moveCounte();
+        } 
+        moveing.innerHTML= `0 moves`;
         
-    
     }else if(move ==24){
-        document.querySelector("#heart").children[0,1].style.display = "none"
-        stopClock();
+        document.querySelector("#heart").children[1].style.display = "none";
+        if(move=0){
+            moveCounte();
+        } 
+        moveing.innerHTML= `0 moves`;
+        
     }else if(move ==32){
-        document.querySelector("#heart").children[0,1,2].style.display = "none"
-        stopClock();
+        document.querySelector("#heart").children[2].style.display = "none";
+        if(move=0){
+            moveCounte();
+        } 
+        moveing.innerHTML= `0 moves`;
+        
     }
-
 };
 
+restarts.addEventListener("click", function(){
+    stopClock();
+    for (i=0; i<cards.length ; i++){
+        cards[i].classList.remove("open","match");
+    }
+    moveing.innerHTML= `0 moves`;
+    if(move=0){
+        moveCounte();
+    }
+    document.querySelector("#heart").children[0].style.display = "inline";
+    document.querySelector("#heart").children[1].style.display = "inline";
+    document.querySelector("#heart").children[2].style.display = "inline";
+
+    shuffle();
+});
+
+
+//shuffle 
+
+let cardsArray= Array.from(Array(cards.length).keys());
+
+shuffle(cardsArray);
+
+cards.forEach((card, index) => {
+    card.style.order = cardsArray[index];
+});
+function shuffle(array) {
+    let current = array.length,
+        temp,
+        random;
+    while (current > 0){
+        random = Math.floor(Math.random() * current);
+
+        current--;
+        
+        temp = array[current];
+
+        array[current]=array[random];
+
+        array[random]=temp;
+    }
+    return array;
+}
