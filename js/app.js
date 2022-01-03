@@ -28,6 +28,10 @@ let restarts = document.querySelector("#restart");
 let move = 0;
 const moveing = document.querySelector("#moves");
 
+const cardToShuffle= document.querySelectorAll(".card");
+let arr =Array.from(cardToShuffle);
+
+reShuffle();
 //functions
 function match(){
     if(openCard[0].children[0].className === openCard[1].children[0].className){ 
@@ -130,6 +134,7 @@ const moveCounte =() => {
 
 restarts.addEventListener("click", function(){
     stopClock();
+    openCard=[];
     for (i=0; i<cards.length ; i++){
         cards[i].classList.remove("open","match");
     }
@@ -140,34 +145,18 @@ restarts.addEventListener("click", function(){
     document.querySelector("#heart").children[0].style.display = "inline";
     document.querySelector("#heart").children[1].style.display = "inline";
     document.querySelector("#heart").children[2].style.display = "inline";
+//-------
+   
+//---------
 
-    shuffle();
+reShuffle()
 });
 
 
 //shuffle 
 
-let cardsArray= Array.from(Array(cards.length).keys());
-
-shuffle(cardsArray);
-
-cards.forEach((card, index) => {
-    card.style.order = cardsArray[index];
-});
-function shuffle(array) {
-    let current = array.length,
-        temp,
-        random;
-    while (current > 0){
-        random = Math.floor(Math.random() * current);
-
-        current--;
-        
-        temp = array[current];
-
-        array[current]=array[random];
-
-        array[random]=temp;
-    }
-    return array;
+function reShuffle(){
+    let shuffled= shuffle(arr);
+    
+    card.replaceChildren(...shuffled);
 }
