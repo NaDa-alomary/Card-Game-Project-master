@@ -28,8 +28,7 @@ let restarts = document.querySelector("#restart");
 let move = 0;
 const moveing = document.querySelector("#moves");
 
-const cardToShuffle= document.querySelectorAll(".card");
-let arr =Array.from(cardToShuffle);
+let arr =Array.from(cards);
 
 reShuffle();
 //functions
@@ -101,6 +100,8 @@ const timerCount = () => {
 const stopClock = () => {
     clearInterval(timerId);
     timer.innerHTML= `0:00`;
+    time=0;
+    timerOut=true;
 };
     
 //move
@@ -145,18 +146,13 @@ restarts.addEventListener("click", function(){
     document.querySelector("#heart").children[0].style.display = "inline";
     document.querySelector("#heart").children[1].style.display = "inline";
     document.querySelector("#heart").children[2].style.display = "inline";
-//-------
-   
-//---------
 
 reShuffle()
 });
 
 
 //shuffle 
-
 function reShuffle(){
     let shuffled= shuffle(arr);
-    
-    card.replaceChildren(...shuffled);
+    deck.replaceChildren(...shuffled);
 }
